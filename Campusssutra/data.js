@@ -1,5 +1,5 @@
 // ============= GLOBAL DATE VARIABLE ============= 
-const APP_DATE = new Date(2026, 0, 7); // January 7, 2026 (Wednesday)
+const APP_DATE = new Date(); // Current date - updates daily
 
 // ============= COLLEGE INFORMATION ============= 
 const collegeInfo = {
@@ -31,18 +31,48 @@ const studentProfile = {
     semesterEndDate: '30 April 2026'
 };
 
+// ============= HOLIDAYS ============= 
+const holidays = [
+    { id: 1, name: 'Republic Day', date: '2026-01-26', type: 'National Holiday' },
+    { id: 2, name: 'Chatrapati Shivaji Maharaj Jayanti', date: '2026-02-19', type: 'Regional Holiday' },
+    { id: 3, name: 'Mahasivaratri', date: '2026-02-15', type: 'Religious Holiday', weekend: true },
+    { id: 4, name: 'Holi (Dhulivandan)', date: '2026-03-03', type: 'Religious Holiday' },
+    { id: 5, name: 'Ramuzan Eid', date: '2026-03-21', type: 'Religious Holiday', weekend: true },
+    { id: 6, name: 'Gudipadwa', date: '2026-03-19', type: 'Regional Holiday' },
+    { id: 7, name: 'Shree Ram Navmi', date: '2026-03-26', type: 'Religious Holiday' },
+    { id: 8, name: 'Maharaj Jayanti', date: '2026-03-31', type: 'Regional Holiday' },
+    { id: 9, name: 'Good Friday', date: '2026-04-03', type: 'Religious Holiday' },
+    { id: 10, name: 'Easter', date: '2026-04-05', type: 'Religious Holiday', weekend: true },
+    { id: 11, name: 'Dr. Babasaheb Ambedkar Jayanti', date: '2026-04-14', type: 'National Holiday' },
+    { id: 12, name: 'Maharastra Din/Buddha Purnima', date: '2026-05-01', type: 'Regional Holiday' },
+    { id: 13, name: 'Bakri Eid', date: '2026-05-27', type: 'Religious Holiday' },
+    { id: 14, name: 'Moharam', date: '2026-06-26', type: 'Religious Holiday' }
+];
+
+// ============= ACADEMIC CALENDAR & EVENTS ============= 
+const academicEvents = [
+    { id: 1, name: 'Commencement Date (FE, SE, TE, BE)', date: '2026-01-05', type: 'Academic Event' },
+    { id: 2, name: 'Sports Week', startDate: '2026-01-05', endDate: '2026-01-11', type: 'Event' },
+    { id: 3, name: 'TechFest-2026', startDate: '2026-01-12', endDate: '2026-01-13', type: 'Cultural Event' },
+    { id: 4, name: 'Cultural Event - Nakshatras', startDate: '2026-01-15', endDate: '2026-01-17', type: 'Cultural Event' },
+    { id: 5, name: 'Unit Test-I', startDate: '2026-02-23', endDate: '2026-02-25', type: 'Examination' },
+    { id: 6, name: 'Unit Test-II', startDate: '2026-04-08', endDate: '2026-04-10', type: 'Examination' },
+    { id: 7, name: 'TW (Technical Work) Submission', startDate: '2026-04-15', endDate: '2026-04-17', type: 'Submission' },
+    { id: 8, name: 'Term End', date: '2026-04-18', type: 'Academic Milestone' },
+    { id: 9, name: 'Oral/Practical Examination', startDate: '2026-04-20', endDate: '2026-05-02', type: 'Examination' },
+    { id: 10, name: 'Final Examination (Theory)', startDate: '2026-06-01', endDate: '2026-06-15', type: 'Examination' }
+];
+
 // ============= FACULTY DIRECTORY ============= 
 const facultyDirectory = [
-    { id: 1, name: 'Prof. Shinde Vishal Rajaram', abbreviation: 'SVR', department: 'CSE', specialization: 'System Programming', email: 'svr@sjjcet.edu.in', phone: '+91-9876543210', room: 'CS-301' },
-    { id: 2, name: 'Prof. Manje satish J.', abbreviation: 'MSJ', department: 'CSE', specialization: 'Cryptography', email: 'msj@sjjcet.edu.in', phone: '+91-9876543211', room: 'CS-302' },
-    { id: 3, name: 'Prof. Mankar Ashwini N.', abbreviation: 'MAN', department: 'CSE', specialization: 'Mobile Computing', email: 'man@sjjcet.edu.in', phone: '+91-9876543212', room: 'CS-303' },
-    { id: 4, name: 'Prof. Umeywane Kanchan P.', abbreviation: 'UKP', department: 'CSE', specialization: 'Artificial Intelligence', email: 'ukp@sjjcet.edu.in', phone: '+91-9876543213', room: 'CS-304' },
-    { id: 5, name: 'Prof. Daware Namrata G.', abbreviation: 'DNG', department: 'CSE', specialization: 'DLOC-IOT', email: 'dng@sjjcet.edu.in', phone: '+91-9876543214', room: 'CS-305' },
-    { id: 6, name: 'Prof. Dhane Priya M.', abbreviation: 'DDM', department: 'CSE', specialization: 'System Design', email: 'ddm@sjjcet.edu.in', phone: '+91-9876543215', room: 'CS-306' },
-    { id: 7, name: 'Prof. Gite Swati B.', abbreviation: 'GSB', department: 'CSE', specialization: 'Cloud Computing', email: 'gsb@sjjcet.edu.in', phone: '+91-9876543216', room: 'CS-307' },
-    { id: 8, name: 'Prof. Nadhwani Usha U.', abbreviation: 'NUU', department: 'CSE', specialization: 'Database Systems', email: 'nuu@sjjcet.edu.in', phone: '+91-9876543217', room: 'CS-308' },
-    { id: 9, name: 'Prof. Varma Arun A.', abbreviation: 'VAA', department: 'CSE', specialization: 'Web Technologies', email: 'vaa@sjjcet.edu.in', phone: '+91-9876543218', room: 'CS-309' },
-    { id: 10, name: 'Prof. Shreya Sonawane', abbreviation: 'SS', department: 'CSE', specialization: 'Software Engineering', email: 'ss@sjjcet.edu.in', phone: '+91-9876543219', room: 'CS-310' },
+    { id: 1, name: 'Prof. Shinde Vishal R.', abbreviation: 'SVR', department: 'CSE', role: 'HOD', email: 'svr@sjjcet.edu.in', room: 'CS-301' },
+    { id: 2, name: 'Prof. Manje satish J.', abbreviation: 'MSJ', department: 'CSE', role: 'Vice-HOD', email: 'msj@sjjcet.edu.in', room: 'CS-302' },
+    { id: 3, name: 'Prof. Mankar Ashwini N.', abbreviation: 'MAN', department: 'CSE', specialization: 'Mobile Computing', email: 'man@sjjcet.edu.in', room: 'CS-303' },
+    { id: 4, name: 'Prof. Umavane Kanchan P.', abbreviation: 'UKP', department: 'CSE', specialization: 'System Programming & Compiler Construction', email: 'ukp@sjjcet.edu.in', room: 'CS-304' },
+    { id: 5, name: 'Prof. Sanap Swamti.', abbreviation: 'SS', department: 'CSE', specialization: 'Cryptography', email: 'ss@sjjcet.edu.in', room: 'CS-305' },
+    { id: 6, name: 'Prof. Dhasade Deepika.', abbreviation: 'DD', department: 'CSE', specialization: 'Internet Of Things', email: 'dd@sjjcet.edu.in', room: 'CS-306' },
+    { id: 7, name: 'Prof. Dhasade Deepika.', abbreviation: 'DD', department: 'CSE', specialization: 'Artificial Intelligence', email: 'dd@sjjcet.edu.in', room: 'CS-307' },
+    { id: 8, name: 'Prof. Agrawal Akshay.', abbreviation: 'AA', department: 'CSE', specialization: 'Cloud Computing', email: 'aa@sjjcet.edu.in', room: 'CS-308' },
 ];
 
 // ============= SUBJECT CODES & INFORMATION ============= 
@@ -51,8 +81,8 @@ const subjectDatabase = {
     'CSS': { code: 'CS602', name: 'Cryptography & System Security', credits: 4, lab: 'CSS/CSL602' },
     'MC': { code: 'CS603', name: 'Mobile Computing', credits: 3, lab: 'MC/CSL603' },
     'AI': { code: 'CS604', name: 'Artificial Intelligence', credits: 3, lab: 'AIL/CSL604' },
-    'DLOC': { code: 'ICS0601', name: 'Department Level Optional Course - IOT', credits: 2 },
-    'SBLC': { code: 'CSL605', name: 'Skill Base Lab Course: Cloud Computing', credits: 2 },
+    'IOT': { code: 'ICS0601', name: 'Internet Of Things', credits: 2 },
+    'CC': { code: 'CSL605', name: 'Cloud Computing', credits: 2 },
 };
 
 // ============= CURRICULUM & MODULES DATA ============= 
@@ -143,6 +173,12 @@ const curriculumData = {
             coverage: '50%',
             topics: 14,
             hours: 20
+        },
+        ut2Coverage: {
+            modules: [4, 5, 6],
+            coverage: '50%',
+            topics: 7,
+            hours: 16
         },
         books: [
             'Compilers: Principles, Techniques, and Tools (Dragon Book) - Aho, Sethi, Ullman',
@@ -239,6 +275,12 @@ const curriculumData = {
             topics: 13,
             hours: 20
         },
+        ut2Coverage: {
+            modules: [4, 5, 6],
+            coverage: '50%',
+            topics: 9,
+            hours: 18
+        },
         books: [
             'Cryptography and Network Security - William Stallings',
             'Introduction to Cryptography with Coding Theory - Trappe & Washington',
@@ -331,6 +373,12 @@ const curriculumData = {
             coverage: '50%',
             topics: 14,
             hours: 15
+        },
+        ut2Coverage: {
+            modules: [4, 5, 6],
+            coverage: '50%',
+            topics: 9,
+            hours: 9
         },
         books: [
             'Android Programming: The Big Nerd Ranch Guide - Bill Phillips',
@@ -426,26 +474,26 @@ const yourTimetable = {
     Monday: [
         { time: '10:00-11:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction', professor: 'SVR', professorName: 'Prof. Shinde Vishal Rajaram', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '11:00-12:00', subject: 'MC', subjectName: 'Mobile Computing', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
-        { time: '12:00-1:30', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction (UKP)', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
+        { time: '12:00-1:30', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction (UKP)', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
         { time: '1:30-2:00', subject: 'Break', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
         { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
-        { time: '3:00-4:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction (UKP)', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
+        { time: '3:00-4:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction (UKP)', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '4:00-5:00', subject: 'Break', subjectName: '', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
     ],
     
     Tuesday: [
         { time: '10:00-11:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '11:00-12:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
-        { time: '12:00-1:30', subject: 'CSS', subjectName: 'Cryptography & System Security (GSB)', professor: 'GSB', professorName: 'Prof. Gite Swati B.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
+        { time: '12:00-1:30', subject: 'CSS', subjectName: 'Cryptography & System Security (SS)', professor: 'SS', professorName: 'Prof. Sanap Swamti.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
         { time: '1:30-2:00', subject: 'Break', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-        { time: '2:00-3:00', subject: 'SPCC', subjectName: 'SPCC-PR (UKP)', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
+        { time: '2:00-3:00', subject: 'SPCC', subjectName: 'SPCC-PR (UKP)', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
         { time: '3:00-4:00', subject: 'Break', subjectName: '', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
         { time: '4:00-5:00', subject: 'Break', subjectName: '', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
     ],
     
     Wednesday: [
         { time: '10:00-11:00', subject: 'MC', subjectName: 'Mobile Computing (MAN)', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
-        { time: '11:00-12:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction (UKP)', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
+        { time: '11:00-12:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction (UKP)', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '12:00-1:30', subject: 'AI', subjectName: 'AI (PR) (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
         { time: '1:30-2:00', subject: 'Break', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
         { time: '2:00-3:00', subject: 'MCL', subjectName: 'MCL (PR) (MAN)', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-118', building: 'Engineering Block B', type: 'Lab', division: 'B' },
@@ -456,10 +504,10 @@ const yourTimetable = {
     Thursday: [
         { time: '10:00-11:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '11:00-12:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
-        { time: '12:00-1:30', subject: 'CSS', subjectName: 'CSSL (PR) (GSB)', professor: 'GSB', professorName: 'Prof. Gite Swati B.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
+        { time: '12:00-1:30', subject: 'CSS', subjectName: 'CSSL (PR) (SS)', professor: 'SS', professorName: 'Prof. Sanap Swamti.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
         { time: '1:30-2:00', subject: 'Break', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-        { time: '2:00-3:00', subject: 'SBLC', subjectName: 'SBLC:CCL(PR) (AAS)', professor: 'AAS', professorName: 'Prof. Varma Arun A.', room: 'A-119', building: 'Engineering Block B', type: 'Lab', division: 'B' },
-        { time: '3:00-4:00', subject: 'CSS', subjectName: 'CSS (GSB)', professor: 'GSB', professorName: 'Prof. Gite Swati B.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
+        { time: '2:00-3:00', subject: 'SBLC', subjectName: 'SBLC:CCL(PR) (AA)', professor: 'AA', professorName: 'Prof. Agrawal Akshay.', room: 'A-119', building: 'Engineering Block B', type: 'Lab', division: 'B' },
+        { time: '3:00-4:00', subject: 'CSS', subjectName: 'CSS (SS)', professor: 'SS', professorName: 'Prof. Sanap Swamti.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '4:00-5:00', subject: 'Break', subjectName: '', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
     ],
     
@@ -494,7 +542,7 @@ const seTimetables = {
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'CSS', subjectName: 'Cryptography & System Security', professor: 'MSJ', professorName: 'Prof. Manje satish J.', room: 'A-201', building: 'Engineering Block A', type: 'Lecture', division: 'A1' },
             { time: '1:30-2:00', subject: 'Lunch', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-201', building: 'Engineering Block A', type: 'Lecture', division: 'A1' },
+            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-201', building: 'Engineering Block A', type: 'Lecture', division: 'A1' },
         ],
         Tuesday: [
             { time: '9:00-10:00', subject: 'MC', subjectName: 'Mobile Computing Lab', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-118', building: 'Engineering Block B', type: 'Lab', division: 'A1' },
@@ -502,10 +550,10 @@ const seTimetables = {
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction', professor: 'SVR', professorName: 'Prof. Shinde Vishal Rajaram', room: 'A-201', building: 'Engineering Block A', type: 'Lecture', division: 'A1' },
             { time: '1:30-2:00', subject: 'Lunch', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-201', building: 'Engineering Block A', type: 'Lecture', division: 'A1' },
+            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-201', building: 'Engineering Block A', type: 'Lecture', division: 'A1' },
         ],
         Wednesday: [
-            { time: '9:00-10:00', subject: 'AI', subjectName: 'Artificial Intelligence Lab', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-109', building: 'Engineering Block A', type: 'Lab', division: 'A1' },
+            { time: '9:00-10:00', subject: 'AI', subjectName: 'Artificial Intelligence Lab', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-109', building: 'Engineering Block A', type: 'Lab', division: 'A1' },
             { time: '10:00-11:00', subject: 'CSS', subjectName: 'Cryptography & System Security Lab', professor: 'MSJ', professorName: 'Prof. Manje satish J.', room: 'A-119', building: 'Engineering Block B', type: 'Lab', division: 'A1' },
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction Lab', professor: 'SVR', professorName: 'Prof. Shinde Vishal Rajaram', room: 'A-112', building: 'Engineering Block A', type: 'Lab', division: 'A1' },
@@ -518,7 +566,7 @@ const seTimetables = {
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'MC', subjectName: 'Mobile Computing', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-201', building: 'Engineering Block A', type: 'Lecture', division: 'A1' },
             { time: '1:30-2:00', subject: 'Lunch', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-201', building: 'Engineering Block A', type: 'Lecture', division: 'A1' },
+            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-201', building: 'Engineering Block A', type: 'Lecture', division: 'A1' },
         ],
         Friday: [
             { time: '9:00-10:00', subject: 'Project', subjectName: 'PROJECT DAY', professor: 'All Faculty', professorName: 'All Faculty', room: 'Various', building: 'Engineering Block', type: 'Project', division: 'A1' },
@@ -547,7 +595,7 @@ const seTimetables = {
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'CSS', subjectName: 'Cryptography & System Security', professor: 'MSJ', professorName: 'Prof. Manje satish J.', room: 'A-202', building: 'Engineering Block A', type: 'Lecture', division: 'A2' },
             { time: '1:30-2:00', subject: 'Lunch', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-202', building: 'Engineering Block A', type: 'Lecture', division: 'A2' },
+            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-202', building: 'Engineering Block A', type: 'Lecture', division: 'A2' },
         ],
         Tuesday: [
             { time: '9:00-10:00', subject: 'MC', subjectName: 'Mobile Computing Lab', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-118', building: 'Engineering Block B', type: 'Lab', division: 'A2' },
@@ -555,10 +603,10 @@ const seTimetables = {
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction', professor: 'SVR', professorName: 'Prof. Shinde Vishal Rajaram', room: 'A-202', building: 'Engineering Block A', type: 'Lecture', division: 'A2' },
             { time: '1:30-2:00', subject: 'Lunch', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-202', building: 'Engineering Block A', type: 'Lecture', division: 'A2' },
+            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-202', building: 'Engineering Block A', type: 'Lecture', division: 'A2' },
         ],
         Wednesday: [
-            { time: '9:00-10:00', subject: 'AI', subjectName: 'Artificial Intelligence Lab', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-109', building: 'Engineering Block A', type: 'Lab', division: 'A2' },
+            { time: '9:00-10:00', subject: 'AI', subjectName: 'Artificial Intelligence Lab', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-109', building: 'Engineering Block A', type: 'Lab', division: 'A2' },
             { time: '10:00-11:00', subject: 'CSS', subjectName: 'Cryptography & System Security Lab', professor: 'MSJ', professorName: 'Prof. Manje satish J.', room: 'A-119', building: 'Engineering Block B', type: 'Lab', division: 'A2' },
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction Lab', professor: 'SVR', professorName: 'Prof. Shinde Vishal Rajaram', room: 'A-112', building: 'Engineering Block A', type: 'Lab', division: 'A2' },
@@ -571,7 +619,7 @@ const seTimetables = {
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'MC', subjectName: 'Mobile Computing', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-202', building: 'Engineering Block A', type: 'Lecture', division: 'A2' },
             { time: '1:30-2:00', subject: 'Lunch', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-202', building: 'Engineering Block A', type: 'Lecture', division: 'A2' },
+            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-202', building: 'Engineering Block A', type: 'Lecture', division: 'A2' },
         ],
         Friday: [
             { time: '9:00-10:00', subject: 'Project', subjectName: 'PROJECT DAY', professor: 'All Faculty', professorName: 'All Faculty', room: 'Various', building: 'Engineering Block', type: 'Project', division: 'A2' },
@@ -595,7 +643,7 @@ const seTimetables = {
         rollNumbers: '41 onwards',
         effectiveFrom: '07 January 2026',
         Monday: [
-            { time: '9:00-10:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
+            { time: '9:00-10:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
             { time: '10:00-11:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction', professor: 'SVR', professorName: 'Prof. Shinde Vishal Rajaram', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'MC', subjectName: 'Mobile Computing', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
@@ -608,19 +656,19 @@ const seTimetables = {
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'MC', subjectName: 'Mobile Computing Lab', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-118', building: 'Engineering Block B', type: 'Lab', division: 'B' },
             { time: '1:30-2:00', subject: 'Lunch', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence Lab', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-109', building: 'Engineering Block A', type: 'Lab', division: 'B' },
+            { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence Lab', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-109', building: 'Engineering Block A', type: 'Lab', division: 'B' },
         ],
         Wednesday: [
             { time: '9:00-10:00', subject: 'MC', subjectName: 'Mobile Computing', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
             { time: '10:00-11:00', subject: 'CSS', subjectName: 'Cryptography & System Security', professor: 'MSJ', professorName: 'Prof. Manje satish J.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-            { time: '12:00-1:30', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
+            { time: '12:00-1:30', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
             { time: '1:30-2:00', subject: 'Lunch', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '2:00-3:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction', professor: 'SVR', professorName: 'Prof. Shinde Vishal Rajaram', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
         ],
         Thursday: [
             { time: '9:00-10:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction', professor: 'SVR', professorName: 'Prof. Shinde Vishal Rajaram', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
-            { time: '10:00-11:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umeywane Kanchan P.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
+            { time: '10:00-11:00', subject: 'AI', subjectName: 'Artificial Intelligence', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
             { time: '11:00-12:00', subject: 'Break', subjectName: 'Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
             { time: '12:00-1:30', subject: 'CSS', subjectName: 'Cryptography & System Security', professor: 'MSJ', professorName: 'Prof. Manje satish J.', room: 'A-203', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
             { time: '1:30-2:00', subject: 'Lunch', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
