@@ -43,20 +43,19 @@ function updateUserProfile() {
     } else {
         teacherSection.style.display = 'none';
     }
+
+    // Show/Hide HOD section if user is HOD
+    const hodSection = document.getElementById('hodSection');
+    if (user.role === 'teacher' && user.isHOD) {
+        hodSection.style.display = 'block';
+    } else {
+        hodSection.style.display = 'none';
+    }
 }
 
 // ============= LIVE CLOCK ============= 
 function updateLiveClock() {
-    const displayTime = new Date(APP_DATE);
-    displayTime.setHours(9, 0, 0);
-    
-    const hours = String(displayTime.getHours()).padStart(2, '0');
-    const minutes = String(displayTime.getMinutes()).padStart(2, '0');
-    const seconds = String(displayTime.getSeconds()).padStart(2, '0');
-    document.getElementById('liveClock').innerHTML = `
-        <div class="clock-display">${hours}:${minutes}:${seconds}</div>
-        <div class="clock-label">Current Time</div>
-    `;
+    // Clock display removed - not needed
 }
 
 // ============= UPDATE DATE DISPLAY ============= 
@@ -64,6 +63,15 @@ function updateDateDisplay() {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const dateString = APP_DATE.toLocaleDateString('en-US', options).toUpperCase();
     document.getElementById('dateTime').textContent = dateString;
+    
+    // Update Today's Classes heading
+    const todayClassesHeading = document.getElementById('todayClassesHeading');
+    if (todayClassesHeading) {
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayName = days[APP_DATE.getDay()];
+        const date = APP_DATE.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+        todayClassesHeading.textContent = `👨‍🎓 Today's Classes - ${dayName}, ${date}`;
+    }
 }
 
 // ============= TEACHER EDIT LECTURES ============= 
@@ -508,8 +516,8 @@ function loadNextClassCard() {
         `;
     } else {
         container.innerHTML = `
-            <h2>📚 First Day! All Classes Ahead</h2>
-            <p style="color: #888; text-align: center; padding: 20px;">Great! You're on your first day of Semester 6. Check your schedule below for today's classes! 🎉</p>
+            <h2>📚 Classes Done for Today!</h2>
+            <p style="color: #888; text-align: center; padding: 20px;">Great work! All classes for today are complete. Check back tomorrow for your next schedule! 🎉</p>
         `;
     }
 }
@@ -1296,6 +1304,12 @@ function switchView(viewName) {
             loadEditLectures();
         } else if (viewName === 'manage-codes') {
             loadManageCodes();
+        } else if (viewName === 'mark-attendance') {
+            initializeAttendanceForm();
+        } else if (viewName === 'attendance-reports') {
+            initializeAttendanceReportForm();
+        } else if (viewName === 'attendance-dashboard') {
+            loadHODAttendanceDashboard();
         }
     }
 }
@@ -1344,3 +1358,611 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLiveClock();
     setInterval(updateLiveClock, 1000);
 });
+
+// ============= ATTENDANCE MARKING FUNCTIONS ============= 
+
+// Initialize attendance form with teacher-specific subjects
+function initializeAttendanceForm() {
+    const user = checkAuthentication();
+    
+    if (!user || user.role !== 'teacher') {
+        alert('❌ You do not have permission to access attendance marking!');
+        return;
+    }
+
+    // Get teacher's assigned subjects
+    const teacherSubjects = user.subjects || [user.subject];
+    
+    const subjectSelect = document.getElementById('attendanceSubject');
+    subjectSelect.innerHTML = '<option value="">-- Select Your Subject --</option>';
+    
+    const subjectNames = {
+        'SPCC': 'System Programming & Compiler Construction',
+        'CSS': 'Cryptography & System Security',
+        'MC': 'Mobile Computing',
+        'AI': 'Artificial Intelligence',
+        'IOT': 'Internet Of Things',
+        'CC': 'Cloud Computing'
+    };
+    
+    teacherSubjects.forEach(subj => {
+        if (subjectNames[subj]) {
+            const option = document.createElement('option');
+            option.value = subj;
+            option.textContent = subjectNames[subj];
+            subjectSelect.appendChild(option);
+        }
+    });
+
+    // Set today's date
+    const today = new Date();
+    const dateString = today.toISOString().split('T')[0];
+    document.getElementById('attendanceDate').value = dateString;
+}
+
+function quickLoadAttendance() {
+    const user = checkAuthentication();
+    
+    if (!user || user.role !== 'teacher') {
+        alert('❌ You do not have permission to access attendance marking!');
+        return;
+    }
+
+    const dateInput = document.getElementById('attendanceDate').value;
+    const subject = document.getElementById('attendanceSubject').value;
+
+    if (!dateInput || !subject) {
+        alert('❌ Please select both date and subject!');
+        return;
+    }
+
+    // Permission check: Verify teacher is authorized for this subject
+    const teacherSubjects = user.subjects || [user.subject];
+    if (!teacherSubjects.includes(subject)) {
+        alert(`❌ You are NOT authorized to mark attendance for ${subject}!\nYou can only mark for: ${teacherSubjects.join(', ')}`);
+        return;
+    }
+
+    const attendanceDate = new Date(dateInput);
+    const dateStr = attendanceDate.toISOString().split('T')[0];
+    
+    // Initialize attendance records for this date and subject
+    const students = attendanceRecords.initializeAttendanceForDate(attendanceDate, subject, attendanceRecords.students);
+
+    // Display student list in GRID format (faster)
+    const studentsList = document.getElementById('studentsList');
+    studentsList.innerHTML = '';
+
+    // Store current attendance state for quick access
+    window.currentAttendanceState = {};
+    
+    students.forEach(student => {
+        window.currentAttendanceState[student.rollNo] = student.status;
+        
+        const card = document.createElement('div');
+        card.className = `student-quick-card ${student.status !== 'Unmarked' ? student.status.toLowerCase() : ''}`;
+        card.id = `student-card-${student.rollNo}`;
+        
+        card.innerHTML = `
+            <div class="student-quick-info">
+                <p class="student-quick-name">${student.name}</p>
+                <p class="student-quick-roll">${student.rollNo}</p>
+            </div>
+            <div class="student-quick-buttons">
+                <button class="btn-small-attendance ${student.status === 'Present' ? 'active present' : ''}" 
+                    onclick="quickMark('${student.rollNo}', 'Present', this)" title="Mark Present">✅</button>
+                <button class="btn-small-attendance ${student.status === 'Absent' ? 'active absent' : ''}" 
+                    onclick="quickMark('${student.rollNo}', 'Absent', this)" title="Mark Absent">❌</button>
+                <button class="btn-small-attendance ${student.status === 'Leave' ? 'active leave' : ''}" 
+                    onclick="quickMark('${student.rollNo}', 'Leave', this)" title="Mark Leave">📋</button>
+            </div>
+        `;
+        
+        studentsList.appendChild(card);
+    });
+
+    // Show stats
+    const presentCount = students.filter(s => s.status === 'Present').length;
+    const absentCount = students.filter(s => s.status === 'Absent').length;
+    const leaveCount = students.filter(s => s.status === 'Leave').length;
+    
+    document.getElementById('selectedDateSubject').textContent = `${subject} on ${attendanceDate.toLocaleDateString()}`;
+    document.getElementById('attendanceStats').textContent = 
+        `✅ ${presentCount} | ❌ ${absentCount} | 📋 ${leaveCount} | Total: ${students.length}`;
+    
+    document.getElementById('attendanceList').style.display = 'block';
+}
+
+function quickMark(rollNo, status, buttonElement) {
+    const dateInput = document.getElementById('attendanceDate').value;
+    const subject = document.getElementById('attendanceSubject').value;
+    const attendanceDate = new Date(dateInput);
+
+    attendanceRecords.markAttendance(attendanceDate, subject, rollNo, status);
+    window.currentAttendanceState[rollNo] = status;
+
+    // Update card styling
+    const card = document.getElementById(`student-card-${rollNo}`);
+    card.className = `student-quick-card ${status.toLowerCase()}`;
+    
+    // Update all buttons in the card
+    const buttons = card.querySelectorAll('.btn-small-attendance');
+    buttons.forEach(btn => btn.classList.remove('active', 'present', 'absent', 'leave'));
+    buttonElement.classList.add('active', status.toLowerCase());
+
+    // Update stats in real-time
+    updateAttendanceStats();
+}
+
+function updateAttendanceStats() {
+    const subject = document.getElementById('attendanceSubject').value;
+    const students = attendanceRecords.students;
+    
+    let presentCount = 0, absentCount = 0, leaveCount = 0;
+    
+    students.forEach(student => {
+        const status = window.currentAttendanceState[student.rollNo];
+        if (status === 'Present') presentCount++;
+        else if (status === 'Absent') absentCount++;
+        else if (status === 'Leave') leaveCount++;
+    });
+    
+    document.getElementById('attendanceStats').textContent = 
+        `✅ ${presentCount} | ❌ ${absentCount} | 📋 ${leaveCount} | Total: ${students.length}`;
+}
+
+function markAllPresent() {
+    const cards = document.querySelectorAll('.student-quick-card');
+    cards.forEach(card => {
+        const rollNo = card.id.replace('student-card-', '');
+        const buttons = card.querySelectorAll('.btn-small-attendance');
+        quickMark(rollNo, 'Present', buttons[0]);
+    });
+}
+
+function markAllAbsent() {
+    const cards = document.querySelectorAll('.student-quick-card');
+    cards.forEach(card => {
+        const rollNo = card.id.replace('student-card-', '');
+        const buttons = card.querySelectorAll('.btn-small-attendance');
+        quickMark(rollNo, 'Absent', buttons[1]);
+    });
+}
+
+function clearAllMarks() {
+    if (!confirm('Clear all marks? You can mark them again.')) return;
+    
+    const cards = document.querySelectorAll('.student-quick-card');
+    cards.forEach(card => {
+        card.className = 'student-quick-card';
+        const buttons = card.querySelectorAll('.btn-small-attendance');
+        buttons.forEach(btn => btn.classList.remove('active', 'present', 'absent', 'leave'));
+    });
+    
+    window.currentAttendanceState = {};
+    updateAttendanceStats();
+}
+
+function closeAttendance() {
+    document.getElementById('attendanceList').style.display = 'none';
+    document.getElementById('attendanceDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('attendanceSubject').value = '';
+}
+
+function loadStudentsForAttendance() {
+    // Legacy function - now using quickLoadAttendance
+    quickLoadAttendance();
+}
+
+function saveAttendanceRecords() {
+    const subject = document.getElementById('attendanceSubject').value;
+    const dateInput = document.getElementById('attendanceDate').value;
+    
+    if (!subject || !dateInput) return;
+
+    // Save to localStorage
+    localStorage.setItem('attendance_records', JSON.stringify(attendanceRecords.records));
+    
+    alert('✅ Attendance saved successfully for ' + subject + ' on ' + new Date(dateInput).toLocaleDateString());
+    
+    // Reset form
+    document.getElementById('attendanceDate').value = '';
+    document.getElementById('attendanceSubject').value = '';
+    document.getElementById('attendanceList').style.display = 'none';
+}
+
+// ============= ATTENDANCE REPORTS (TEACHER) ============= 
+
+function initializeAttendanceReportForm() {
+    const user = checkAuthentication();
+    
+    if (!user || user.role !== 'teacher') {
+        alert('❌ You do not have permission to access attendance reports!');
+        return;
+    }
+
+    // Get teacher's assigned subjects
+    const teacherSubjects = user.subjects || [user.subject];
+    
+    const subjectSelect = document.getElementById('reportSubject');
+    subjectSelect.innerHTML = '<option value="">-- Select Your Subject --</option>';
+    
+    const subjectNames = {
+        'SPCC': 'System Programming & Compiler Construction',
+        'CSS': 'Cryptography & System Security',
+        'MC': 'Mobile Computing',
+        'AI': 'Artificial Intelligence',
+        'IOT': 'Internet Of Things',
+        'CC': 'Cloud Computing'
+    };
+    
+    teacherSubjects.forEach(subj => {
+        if (subjectNames[subj]) {
+            const option = document.createElement('option');
+            option.value = subj;
+            option.textContent = subjectNames[subj];
+            subjectSelect.appendChild(option);
+        }
+    });
+}
+
+function loadAttendanceReport() {
+    const user = checkAuthentication();
+    
+    if (!user || user.role !== 'teacher') {
+        alert('❌ You do not have permission to access attendance reports!');
+        return;
+    }
+
+    const subject = document.getElementById('reportSubject').value;
+    
+    if (!subject) {
+        alert('❌ Please select a subject!');
+        return;
+    }
+
+    // Permission check: Verify teacher is authorized for this subject
+    const teacherSubjects = user.subjects || [user.subject];
+    if (!teacherSubjects.includes(subject)) {
+        alert(`❌ You are NOT authorized to view reports for ${subject}!\nYou can only view: ${teacherSubjects.join(', ')}`);
+        return;
+    }
+
+    const reportData = document.getElementById('reportData');
+    reportData.innerHTML = '';
+
+    // Get all attendance records for this subject
+    const subjectRecords = Object.keys(attendanceRecords.records).filter(key => key.endsWith(`-${subject}`));
+    
+    if (subjectRecords.length === 0) {
+        reportData.innerHTML = '<p style="color: #888; text-align: center; padding: 20px;">No attendance records found for this subject. Start marking attendance to generate reports.</p>';
+        document.getElementById('reportContainer').style.display = 'block';
+        document.getElementById('reportTitle').textContent = subject;
+        return;
+    }
+
+    // Compile attendance summary for each student
+    const studentSummary = {};
+    
+    attendanceRecords.students.forEach(student => {
+        const att = attendanceRecords.getStudentAttendance(student.rollNo, subject);
+        studentSummary[student.rollNo] = {
+            name: student.name,
+            ...att
+        };
+    });
+
+    // Display report
+    Object.entries(studentSummary).forEach(([rollNo, data]) => {
+        const percentage = data.percentage || 0;
+        const percentageColor = percentage >= 75 ? '#51cf66' : percentage >= 60 ? '#ffa502' : '#ff6b6b';
+        
+        const reportRow = document.createElement('div');
+        reportRow.className = 'report-student-row';
+        reportRow.innerHTML = `
+            <div style="color: #888; font-size: 12px;">${rollNo}</div>
+            <div style="color: #e0e0e0;">${data.name}</div>
+            <div style="text-align: center; color: #e0e0e0;">
+                ✅ ${data.present} | ❌ ${data.absent} | 📋 ${data.leave}
+            </div>
+            <div class="percentage-bar">
+                <div class="percentage-fill">
+                    <div class="percentage-fill-bar" style="width: ${percentage}%; background: ${percentageColor};"></div>
+                </div>
+                <div class="percentage-value">${percentage}%</div>
+            </div>
+        `;
+        reportData.appendChild(reportRow);
+    });
+
+    document.getElementById('reportContainer').style.display = 'block';
+    document.getElementById('reportTitle').textContent = subject;
+}
+
+// ============= HOD ATTENDANCE DASHBOARD ============= 
+
+function loadHODAttendanceDashboard() {
+    const user = checkAuthentication();
+    
+    // Permission check: Only HOD can access
+    if (!user || user.role !== 'teacher' || !user.isHOD) {
+        alert('❌ You do not have permission to access the HOD Dashboard!\nOnly the Head of Department can access this feature.');
+        return;
+    }
+
+    const subject = document.getElementById('hodSubjectFilter').value;
+
+    // Calculate statistics
+    let totalStudents = attendanceRecords.students.length;
+    let totalMarkedDays = 0;
+    let sumAttendance = 0;
+    let defaultersCount = 0;
+
+    attendanceRecords.students.forEach(student => {
+        let subjectFilter = subject || null;
+        let attendance;
+        
+        if (subjectFilter) {
+            attendance = attendanceRecords.getStudentAttendance(student.rollNo, subjectFilter);
+        } else {
+            // Average attendance across all subjects
+            const allSubjects = new Set();
+            Object.keys(attendanceRecords.records).forEach(key => {
+                const subj = key.split('-')[1];
+                allSubjects.add(subj);
+            });
+            
+            let totalPercentage = 0;
+            let subjectCount = 0;
+            allSubjects.forEach(subj => {
+                const att = attendanceRecords.getStudentAttendance(student.rollNo, subj);
+                if (att.total > 0) {
+                    totalPercentage += parseFloat(att.percentage) || 0;
+                    subjectCount++;
+                }
+            });
+            
+            const avgPercentage = subjectCount > 0 ? (totalPercentage / subjectCount).toFixed(1) : 0;
+            attendance = { percentage: avgPercentage };
+        }
+        
+        const percentage = parseFloat(attendance.percentage) || 0;
+        sumAttendance += percentage;
+        
+        if (percentage < 75 && percentage > 0) {
+            defaultersCount++;
+        }
+    });
+
+    const avgAttendance = (sumAttendance / totalStudents).toFixed(1);
+
+    // Update stats
+    document.getElementById('totalStudentsCount').textContent = totalStudents;
+    document.getElementById('avgAttendancePercentage').textContent = avgAttendance + '%';
+    document.getElementById('defaultersCount').textContent = defaultersCount;
+
+    // Load student list
+    const studentsList = document.getElementById('hodStudentsList');
+    studentsList.innerHTML = '';
+
+    attendanceRecords.students.forEach(student => {
+        let attendance;
+        
+        if (subject) {
+            attendance = attendanceRecords.getStudentAttendance(student.rollNo, subject);
+        } else {
+            const allSubjects = new Set();
+            Object.keys(attendanceRecords.records).forEach(key => {
+                const subj = key.split('-')[1];
+                allSubjects.add(subj);
+            });
+            
+            let totalPercentage = 0;
+            let subjectCount = 0;
+            allSubjects.forEach(subj => {
+                const att = attendanceRecords.getStudentAttendance(student.rollNo, subj);
+                if (att.total > 0) {
+                    totalPercentage += parseFloat(att.percentage) || 0;
+                    subjectCount++;
+                }
+            });
+            
+            const avgPercentage = subjectCount > 0 ? (totalPercentage / subjectCount).toFixed(1) : 0;
+            attendance = { percentage: avgPercentage };
+        }
+
+        const percentage = parseFloat(attendance.percentage) || 0;
+        let statusBadge = '';
+        
+        if (percentage === 0) {
+            statusBadge = '<span class="status-badge warning">Unmarked</span>';
+        } else if (percentage >= 75) {
+            statusBadge = '<span class="status-badge safe">✅ Safe</span>';
+        } else if (percentage >= 60) {
+            statusBadge = '<span class="status-badge warning">⚠️ Warning</span>';
+        } else {
+            statusBadge = '<span class="status-badge danger">🚫 Defaulter</span>';
+        }
+
+        const row = document.createElement('div');
+        row.className = `student-row ${percentage < 75 && percentage > 0 ? 'defaulter' : ''}`;
+        row.innerHTML = `
+            <div>${student.rollNo}</div>
+            <div>${student.name}</div>
+            <div>${statusBadge}</div>
+            <div style="text-align: center;">${attendance.total || 0} days</div>
+            <div class="percentage-bar">
+                <div class="percentage-fill">
+                    <div class="percentage-fill-bar" style="width: ${percentage}%;"></div>
+                </div>
+                <div class="percentage-value">${percentage}%</div>
+            </div>
+        `;
+        studentsList.appendChild(row);
+    });
+
+    document.getElementById('hodDashboardData').style.display = 'block';
+}
+
+// ============= NOC MANAGEMENT ============= 
+
+function searchNOCStudent() {
+    const user = checkAuthentication();
+    
+    // Permission check: Only HOD can access NOC management
+    if (!user || user.role !== 'teacher' || !user.isHOD) {
+        alert('❌ You do not have permission to access NOC Management!\nOnly the Head of Department can issue NOC certificates.');
+        return;
+    }
+
+    const rollNo = document.getElementById('studentSearchInput').value.trim();
+    
+    if (!rollNo) {
+        alert('❌ Please enter a roll number!');
+        return;
+    }
+
+    const student = attendanceRecords.students.find(s => s.rollNo === rollNo);
+    
+    if (!student) {
+        alert('❌ Student not found!');
+        return;
+    }
+
+    // Calculate overall attendance
+    const allSubjects = new Set();
+    Object.keys(attendanceRecords.records).forEach(key => {
+        const subj = key.split('-')[1];
+        allSubjects.add(subj);
+    });
+
+    let subjectWiseAttendance = {};
+    let overallPercentage = 0;
+    let subjectCount = 0;
+
+    allSubjects.forEach(subj => {
+        const att = attendanceRecords.getStudentAttendance(student.rollNo, subj);
+        subjectWiseAttendance[subj] = {
+            present: att.present,
+            total: att.total,
+            percentage: att.percentage
+        };
+        
+        if (att.total > 0) {
+            overallPercentage += parseFloat(att.percentage) || 0;
+            subjectCount++;
+        }
+    });
+
+    overallPercentage = subjectCount > 0 ? (overallPercentage / subjectCount).toFixed(1) : 0;
+
+    // Display student info
+    const nocDetails = document.getElementById('nocDetails');
+    
+    let subjectDetailsHTML = '';
+    Object.entries(subjectWiseAttendance).forEach(([subj, data]) => {
+        subjectDetailsHTML += `
+            <div class="noc-detail-item">
+                <div class="noc-detail-label">${subj}</div>
+                <div class="noc-detail-value">${data.percentage}% (${data.present}/${data.total} classes)</div>
+            </div>
+        `;
+    });
+
+    nocDetails.innerHTML = `
+        <div class="noc-detail-item">
+            <div class="noc-detail-label">Roll Number</div>
+            <div class="noc-detail-value">${student.rollNo}</div>
+        </div>
+        <div class="noc-detail-item">
+            <div class="noc-detail-label">Student Name</div>
+            <div class="noc-detail-value">${student.name}</div>
+        </div>
+        <div class="noc-detail-item">
+            <div class="noc-detail-label">Email</div>
+            <div class="noc-detail-value">${student.email}</div>
+        </div>
+        <div class="noc-detail-item">
+            <div class="noc-detail-label">Overall Attendance</div>
+            <div class="noc-detail-value" style="color: ${overallPercentage >= 75 ? '#51cf66' : '#ff6b6b'}; font-weight: bold;">
+                ${overallPercentage}%
+            </div>
+        </div>
+        <div style="grid-column: 1/-1; border-top: 1px solid #2a2a3e; padding-top: 12px; margin-top: 12px;">
+            <h4 style="color: #667eea; margin-bottom: 12px;">Subject-wise Attendance:</h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                ${subjectDetailsHTML}
+            </div>
+        </div>
+    `;
+
+    // Store current student for NOC action
+    window.currentNOCStudent = { ...student, overallPercentage, subjectWiseAttendance };
+    
+    document.getElementById('nocStudentInfo').style.display = 'block';
+}
+
+function issueCertificate() {
+    const student = window.currentNOCStudent;
+    
+    if (!student) {
+        alert('❌ No student selected!');
+        return;
+    }
+
+    if (parseFloat(student.overallPercentage) < 75) {
+        alert('❌ Cannot issue NOC! Student attendance is below 75%.');
+        return;
+    }
+
+    const nocMessage = `
+✅ NOC APPROVED
+
+Student: ${student.name}
+Roll Number: ${student.rollNo}  
+Overall Attendance: ${student.overallPercentage}%
+
+This certifies that the student has met the minimum attendance requirement of 75% and is eligible to appear for the semester-end examination.
+
+Date: ${new Date().toLocaleDateString()}
+Issued by: HOD, Department of Computer Engineering
+    `;
+
+    alert(nocMessage);
+    
+    // Clear form
+    document.getElementById('studentSearchInput').value = '';
+    document.getElementById('nocStudentInfo').style.display = 'none';
+    window.currentNOCStudent = null;
+}
+
+function denyNOC() {
+    const student = window.currentNOCStudent;
+    
+    if (!student) {
+        alert('❌ No student selected!');
+        return;
+    }
+
+    const denyMessage = `
+❌ NOC DENIED
+
+Student: ${student.name}
+Roll Number: ${student.rollNo}
+Overall Attendance: ${student.overallPercentage}%
+
+The student does not meet the minimum attendance requirement of 75% and is NOT eligible to appear for the semester-end examination.
+
+Please contact the student to improve attendance.
+
+Date: ${new Date().toLocaleDateString()}
+Issued by: HOD, Department of Computer Engineering
+    `;
+
+    alert(denyMessage);
+    
+    // Clear form
+    document.getElementById('studentSearchInput').value = '';
+    document.getElementById('nocStudentInfo').style.display = 'none';
+    window.currentNOCStudent = null;
+}

@@ -26,16 +26,92 @@ function initializeAuthData() {
         localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(demoUsers));
     }
 
-    // Create demo teacher
+    // Create all teachers with credentials
     if (!localStorage.getItem(STORAGE_KEYS.TEACHERS)) {
         const demoTeachers = [
             {
                 id: 'TCH001',
                 name: 'Prof. Shinde Vishal Rajaram',
+                abbreviation: 'SVR',
                 email: 'svr@sjjcet.edu.in',
                 phone: '9876543211',
-                password: 'teacher123',
+                password: 'SVR@2026',
                 subject: 'SPCC',
+                subjects: ['SPCC'],
+                role: 'teacher',
+                isHOD: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'TCH002',
+                name: 'Prof. Manje Satish J.',
+                abbreviation: 'MSJ',
+                email: 'msj@sjjcet.edu.in',
+                phone: '9876543212',
+                password: 'MSJ@2026',
+                subject: 'SPCC',
+                subjects: ['SPCC'],
+                role: 'teacher',
+                isViceHOD: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'TCH003',
+                name: 'Prof. Mankar Ashwini N.',
+                abbreviation: 'MAN',
+                email: 'man@sjjcet.edu.in',
+                phone: '9876543213',
+                password: 'MAN@2026',
+                subject: 'MC',
+                subjects: ['MC'],
+                role: 'teacher',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'TCH004',
+                name: 'Prof. Umavane Kanchan P.',
+                abbreviation: 'UKP',
+                email: 'ukp@sjjcet.edu.in',
+                phone: '9876543214',
+                password: 'UKP@2026',
+                subject: 'SPCC',
+                subjects: ['SPCC'],
+                role: 'teacher',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'TCH005',
+                name: 'Prof. Sanap Swati',
+                abbreviation: 'SS',
+                email: 'ss@sjjcet.edu.in',
+                phone: '9876543215',
+                password: 'SS@2026',
+                subject: 'CSS',
+                subjects: ['CSS'],
+                role: 'teacher',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'TCH006',
+                name: 'Prof. Dhasade Deepika',
+                abbreviation: 'DD',
+                email: 'dd@sjjcet.edu.in',
+                phone: '9876543216',
+                password: 'DD@2026',
+                subject: 'AI',
+                subjects: ['AI', 'IOT'],
+                role: 'teacher',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'TCH007',
+                name: 'Prof. Agrawal Akshay',
+                abbreviation: 'AA',
+                email: 'aa@sjjcet.edu.in',
+                phone: '9876543217',
+                password: 'AA@2026',
+                subject: 'CC',
+                subjects: ['CC'],
                 role: 'teacher',
                 createdAt: new Date().toISOString()
             }

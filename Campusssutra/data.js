@@ -69,7 +69,7 @@ const facultyDirectory = [
     { id: 2, name: 'Prof. Manje satish J.', abbreviation: 'MSJ', department: 'CSE', role: 'Vice-HOD', email: 'msj@sjjcet.edu.in', room: 'CS-302' },
     { id: 3, name: 'Prof. Mankar Ashwini N.', abbreviation: 'MAN', department: 'CSE', specialization: 'Mobile Computing', email: 'man@sjjcet.edu.in', room: 'CS-303' },
     { id: 4, name: 'Prof. Umavane Kanchan P.', abbreviation: 'UKP', department: 'CSE', specialization: 'System Programming & Compiler Construction', email: 'ukp@sjjcet.edu.in', room: 'CS-304' },
-    { id: 5, name: 'Prof. Sanap Swamti.', abbreviation: 'SS', department: 'CSE', specialization: 'Cryptography', email: 'ss@sjjcet.edu.in', room: 'CS-305' },
+    { id: 5, name: 'Prof. Sanap Swati.', abbreviation: 'SS', department: 'CSE', specialization: 'Cryptography', email: 'ss@sjjcet.edu.in', room: 'CS-305' },
     { id: 6, name: 'Prof. Dhasade Deepika.', abbreviation: 'DD', department: 'CSE', specialization: 'Internet Of Things', email: 'dd@sjjcet.edu.in', room: 'CS-306' },
     { id: 7, name: 'Prof. Dhasade Deepika.', abbreviation: 'DD', department: 'CSE', specialization: 'Artificial Intelligence', email: 'dd@sjjcet.edu.in', room: 'CS-307' },
     { id: 8, name: 'Prof. Agrawal Akshay.', abbreviation: 'AA', department: 'CSE', specialization: 'Cloud Computing', email: 'aa@sjjcet.edu.in', room: 'CS-308' },
@@ -476,15 +476,15 @@ const yourTimetable = {
         { time: '11:00-12:00', subject: 'MC', subjectName: 'Mobile Computing', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '12:00-1:30', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction (UKP)', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
         { time: '1:30-2:00', subject: 'Break', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
-        { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
+        { time: '2:00-3:00', subject: 'AI', subjectName: 'Artificial Intelligence (DD)', professor: 'DD', professorName: 'Prof. Dhasade Deepika.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
         { time: '3:00-4:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction (UKP)', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '4:00-5:00', subject: 'Break', subjectName: '', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
     ],
     
     Tuesday: [
-        { time: '10:00-11:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
-        { time: '11:00-12:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
-        { time: '12:00-1:30', subject: 'CSS', subjectName: 'Cryptography & System Security (SS)', professor: 'SS', professorName: 'Prof. Sanap Swamti.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
+        { time: '10:00-11:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DD)', professor: 'DD', professorName: 'Prof. Dhasade Deepika.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
+        { time: '11:00-12:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DD)', professor: 'DD', professorName: 'Prof. Dhasade Deepika.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
+        { time: '12:00-1:30', subject: 'CSS', subjectName: 'Cryptography & System Security (SS)', professor: 'SS', professorName: 'Prof. Sanap Swati.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'B' },
         { time: '1:30-2:00', subject: 'Break', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
         { time: '2:00-3:00', subject: 'SPCC', subjectName: 'SPCC-PR (UKP)', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
         { time: '3:00-4:00', subject: 'Break', subjectName: '', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
@@ -494,20 +494,20 @@ const yourTimetable = {
     Wednesday: [
         { time: '10:00-11:00', subject: 'MC', subjectName: 'Mobile Computing (MAN)', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '11:00-12:00', subject: 'SPCC', subjectName: 'System Programming & Compiler Construction (UKP)', professor: 'UKP', professorName: 'Prof. Umavane Kanchan P.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
-        { time: '12:00-1:30', subject: 'AI', subjectName: 'AI (PR) (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
+        { time: '12:00-1:30', subject: 'AI', subjectName: 'AI (PR) (DD)', professor: 'DD', professorName: 'Prof. Dhasade Deepika.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
         { time: '1:30-2:00', subject: 'Break', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
         { time: '2:00-3:00', subject: 'MCL', subjectName: 'MCL (PR) (MAN)', professor: 'MAN', professorName: 'Prof. Mankar Ashwini N.', room: 'A-118', building: 'Engineering Block B', type: 'Lab', division: 'B' },
-        { time: '3:00-4:00', subject: 'AI', subjectName: 'AI (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
+        { time: '3:00-4:00', subject: 'AI', subjectName: 'AI (DD)', professor: 'DD', professorName: 'Prof. Dhasade Deepika.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '4:00-5:00', subject: 'Break', subjectName: '', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
     ],
     
     Thursday: [
-        { time: '10:00-11:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
-        { time: '11:00-12:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DDM)', professor: 'DDM', professorName: 'Prof. Dhane Priya M.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
-        { time: '12:00-1:30', subject: 'CSS', subjectName: 'CSSL (PR) (SS)', professor: 'SS', professorName: 'Prof. Sanap Swamti.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
+        { time: '10:00-11:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DD)', professor: 'DD', professorName: 'Prof. Dhasade Deepika.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
+        { time: '11:00-12:00', subject: 'DLOC', subjectName: 'DLOC-2 IOT (DD)', professor: 'DD', professorName: 'Prof. Dhasade Deepika.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
+        { time: '12:00-1:30', subject: 'CSS', subjectName: 'CSSL (PR) (SS)', professor: 'SS', professorName: 'Prof. Sanap Swati.', room: 'A-111', building: 'Engineering Block A', type: 'Practical', division: 'B' },
         { time: '1:30-2:00', subject: 'Break', subjectName: 'Lunch Break', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
         { time: '2:00-3:00', subject: 'SBLC', subjectName: 'SBLC:CCL(PR) (AA)', professor: 'AA', professorName: 'Prof. Agrawal Akshay.', room: 'A-119', building: 'Engineering Block B', type: 'Lab', division: 'B' },
-        { time: '3:00-4:00', subject: 'CSS', subjectName: 'CSS (SS)', professor: 'SS', professorName: 'Prof. Sanap Swamti.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
+        { time: '3:00-4:00', subject: 'CSS', subjectName: 'CSS (SS)', professor: 'SS', professorName: 'Prof. Sanap Swati.', room: 'A-111', building: 'Engineering Block A', type: 'Lecture', division: 'A' },
         { time: '4:00-5:00', subject: 'Break', subjectName: '', professor: '', professorName: '', room: '', building: '', type: 'Break', division: '' },
     ],
     
@@ -824,11 +824,11 @@ const professorHighlights = {
 
 // ============= STUDY STREAK DATA ============= 
 const studyStreakData = {
-    currentStreak: 1,
-    bestStreak: 1,
-    totalDaysStudied: 1,
-    level: 'Beginner',
-    lastActivityDate: '2026-01-07',
+    currentStreak: Math.floor((APP_DATE - new Date(2026, 0, 7)) / (1000 * 60 * 60 * 24)),
+    bestStreak: 98,
+    totalDaysStudied: 98,
+    level: 'Consistent',
+    lastActivityDate: APP_DATE.toISOString().split('T')[0],
     dailyLog: [
         { date: '2026-01-07', duration: 1.5, topics: ['SPCC', 'CSS', 'MC'] },
     ]
@@ -848,6 +848,111 @@ const students = [
     { id: 2, name: 'Jane Smith' },
     { id: 3, name: 'Mike Johnson' },
 ];
+
+// ============= ATTENDANCE RECORDS (TEACHER MARKING) ============= 
+const attendanceRecords = {
+    // Sample student list for attendance marking
+    students: [
+        { rollNo: 'CS/TE/A1-001', name: 'Student 1', email: 'student1@sjjcet.edu.in' },
+        { rollNo: 'CS/TE/A1-002', name: 'Student 2', email: 'student2@sjjcet.edu.in' },
+        { rollNo: 'CS/TE/A1-003', name: 'Student 3', email: 'student3@sjjcet.edu.in' },
+        { rollNo: 'CS/TE/A1-004', name: 'Student 4', email: 'student4@sjjcet.edu.in' },
+        { rollNo: 'CS/TE/A1-005', name: 'Student 5', email: 'student5@sjjcet.edu.in' },
+        // Add more students as needed (up to 68 total)
+    ],
+    // Daily attendance records: stored as date-subject-student mapping
+    records: {
+        // Format: '2026-04-14-SPCC': [{ rollNo: 'CS/TE/A1-045', status: 'Present', timestamp: '2026-04-14T10:30:00Z' }]
+    },
+    // Initialize empty attendance for current date
+    initializeAttendanceForDate: function(date, subject, studentList) {
+        const dateStr = date.toISOString().split('T')[0];
+        const key = `${dateStr}-${subject}`;
+        if (!this.records[key]) {
+            this.records[key] = studentList.map(student => ({
+                rollNo: student.rollNo,
+                name: student.name,
+                status: 'Unmarked', // Unmarked, Present, Absent, Leave
+                timestamp: null
+            }));
+        }
+        return this.records[key];
+    },
+    // Mark attendance for a student
+    markAttendance: function(date, subject, rollNo, status) {
+        const dateStr = date.toISOString().split('T')[0];
+        const key = `${dateStr}-${subject}`;
+        if (!this.records[key]) return false;
+        
+        const record = this.records[key].find(r => r.rollNo === rollNo);
+        if (record) {
+            record.status = status;
+            record.timestamp = new Date().toISOString();
+            localStorage.setItem('attendance_records', JSON.stringify(attendanceRecords.records));
+            return true;
+        }
+        return false;
+    },
+    // Get attendance for a specific student and subject
+    getStudentAttendance: function(rollNo, subject) {
+        const attendance = {
+            present: 0,
+            absent: 0,
+            leave: 0,
+            total: 0,
+            percentage: 0
+        };
+        
+        Object.keys(this.records).forEach(key => {
+            if (key.endsWith(`-${subject}`)) {
+                const dayRecords = this.records[key];
+                const studentRecord = dayRecords.find(r => r.rollNo === rollNo);
+                if (studentRecord && studentRecord.status !== 'Unmarked') {
+                    attendance.total++;
+                    if (studentRecord.status === 'Present') {
+                        attendance.present++;
+                    } else if (studentRecord.status === 'Absent') {
+                        attendance.absent++;
+                    } else if (studentRecord.status === 'Leave') {
+                        attendance.leave++;
+                    }
+                }
+            }
+        });
+        
+        if (attendance.total > 0) {
+            attendance.percentage = ((attendance.present / attendance.total) * 100).toFixed(1);
+        }
+        
+        return attendance;
+    },
+    // Get all subjects attended by student on a specific date
+    getStudentDayAttendance: function(rollNo, date) {
+        const dateStr = date.toISOString().split('T')[0];
+        const dayAttendance = {};
+        
+        Object.keys(this.records).forEach(key => {
+            if (key.startsWith(dateStr)) {
+                const subject = key.split('-')[1];
+                const dayRecords = this.records[key];
+                const studentRecord = dayRecords.find(r => r.rollNo === rollNo);
+                if (studentRecord) {
+                    dayAttendance[subject] = studentRecord.status;
+                }
+            }
+        });
+        
+        return dayAttendance;
+    }
+};
+
+// Load attendance records from localStorage if available
+(function() {
+    const savedRecords = localStorage.getItem('attendance_records');
+    if (savedRecords) {
+        attendanceRecords.records = JSON.parse(savedRecords);
+    }
+})();
 
 // ============= HELPER FUNCTIONS ============= 
 function getTodaySchedule() {

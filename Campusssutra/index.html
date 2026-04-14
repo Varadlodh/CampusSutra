@@ -60,8 +60,17 @@
                 <!-- Teacher Only Section -->
                 <div class="nav-section" id="teacherSection" style="display: none;">
                     <p class="nav-label">TEACHER PANEL</p>
+                    <a href="#" data-view="mark-attendance" class="nav-item">✅ Mark Attendance</a>
+                    <a href="#" data-view="attendance-reports" class="nav-item">📊 Attendance Reports</a>
                     <a href="#" data-view="edit-lectures" class="nav-item">✏️ Edit Lectures</a>
                     <a href="#" data-view="manage-codes" class="nav-item">🔑 Manage Codes</a>
+                </div>
+
+                <!-- HOD Only Section -->
+                <div class="nav-section" id="hodSection" style="display: none;">
+                    <p class="nav-label">HOD PANEL</p>
+                    <a href="#" data-view="attendance-dashboard" class="nav-item">📈 Attendance Dashboard</a>
+                    <a href="#" data-view="noc-management" class="nav-item">📄 NOC Management</a>
                 </div>
             </nav>
 
@@ -99,11 +108,7 @@
                     <div class="dashboard-header">
                         <div class="greeting">
                             <h1>Welcome to <span class="gradient-text">Campus Sutra</span></h1>
-                            <p>First day of Semester 6! 🎉 Your complete college management platform by Chimni Pakhru</p>
-                        </div>
-                        <div class="live-clock" id="liveClock">
-                            <div class="clock-display">12:34:56</div>
-                            <div class="clock-label">Current Time</div>
+                            <p>Semester 6 in Progress! 📚 Your complete college management platform by Chimni Pakhru</p>
                         </div>
                     </div>
 
@@ -219,7 +224,7 @@
 
                 <!-- Today's Timetable View -->
                 <section id="today-timetable-view" class="view">
-                    <h1>👨‍🎓 Today's Classes - Wednesday, 7 January 2026</h1>
+                    <h1 id="todayClassesHeading">👨‍🎓 Today's Classes</h1>
                     <div class="today-timetable-container">
                         <div class="today-schedule-detailed" id="todayScheduleDetailed"></div>
                     </div>
@@ -374,6 +379,137 @@
                     <h1>🔑 Manage Registration Codes</h1>
                     <div class="manage-codes-container" id="manageCodesContainer"></div>
                 </section>
+
+                <!-- Mark Attendance View (Teacher Only) -->
+                <section id="mark-attendance-view" class="view">
+                    <h1>✅ Mark Attendance (Quick & Easy)</h1>
+                    <div class="attendance-marking-container">
+                        <div class="form-card">
+                            <div class="form-group">
+                                <label>📅 Select Date</label>
+                                <input type="date" id="attendanceDate" class="form-control" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>📖 Your Subjects</label>
+                                <select id="attendanceSubject" class="form-control">
+                                    <option value="">-- Loading your subjects --</option>
+                                </select>
+                            </div>
+                            <button onclick="quickLoadAttendance()" class="btn-primary">⚡ Open Attendance</button>
+                        </div>
+                        
+                        <div id="attendanceList" class="attendance-list-quick" style="display: none;">
+                            <div class="quick-attendance-header">
+                                <div>
+                                    <h3>📚 <span id="selectedDateSubject"></span></h3>
+                                    <p id="attendanceStats" style="color: #888; font-size: 12px; margin-top: 4px;"></p>
+                                </div>
+                                <div class="quick-buttons">
+                                    <button onclick="markAllPresent()" class="btn-quick-action" title="Mark all as Present">✅ Mark All Present</button>
+                                    <button onclick="markAllAbsent()" class="btn-quick-action" title="Mark all as Absent">❌ Mark All Absent</button>
+                                    <button onclick="clearAllMarks()" class="btn-quick-action" title="Clear all marks">🔄 Clear All</button>
+                                </div>
+                            </div>
+                            <div id="studentsList" class="students-grid-fast"></div>
+                            <div class="attendance-footer-actions">
+                                <button onclick="saveAttendanceRecords()" class="btn-success btn-large">💾 Save Attendance</button>
+                                <button onclick="closeAttendance()" class="btn-cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Attendance Reports View (Teacher) -->
+                <section id="attendance-reports-view" class="view">
+                    <h1>📊 Attendance Reports</h1>
+                    <div class="attendance-reports-container">
+                        <div class="form-card">
+                            <div class="form-group">
+                                <label>📖 Select Subject</label>
+                                <select id="reportSubject" class="form-control">
+                                    <option value="">-- Choose Subject --</option>
+                                    <option value="SPCC">System Programming & Compiler Construction</option>
+                                    <option value="CSS">Cryptography & System Security</option>
+                                    <option value="MC">Mobile Computing</option>
+                                    <option value="AI">Artificial Intelligence</option>
+                                    <option value="IOT">Internet Of Things</option>
+                                    <option value="CC">Cloud Computing</option>
+                                </select>
+                            </div>
+                            <button onclick="loadAttendanceReport()" class="btn-primary">📊 Load Report</button>
+                        </div>
+                        
+                        <div id="reportContainer" class="report-container" style="display: none;">
+                            <h3>Attendance Report - <span id="reportTitle"></span></h3>
+                            <div id="reportData" class="report-table"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Attendance Dashboard View (HOD Only) -->
+                <section id="attendance-dashboard-view" class="view">
+                    <h1>📈 Attendance Dashboard (HOD)</h1>
+                    <div class="attendance-dashboard-container">
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <h3>Total Students</h3>
+                                <p id="totalStudentsCount" class="stat-value">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Average Attendance</h3>
+                                <p id="avgAttendancePercentage" class="stat-value">0%</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Defaulters</h3>
+                                <p id="defaultersCount" class="stat-value">0</p>
+                            </div>
+                        </div>
+
+                        <div class="form-card">
+                            <div class="form-group">
+                                <label>📖 Select Subject</label>
+                                <select id="hodSubjectFilter" class="form-control">
+                                    <option value="">-- All Subjects --</option>
+                                    <option value="SPCC">System Programming & Compiler Construction</option>
+                                    <option value="CSS">Cryptography & System Security</option>
+                                    <option value="MC">Mobile Computing</option>
+                                    <option value="AI">Artificial Intelligence</option>
+                                    <option value="IOT">Internet Of Things</option>
+                                    <option value="CC">Cloud Computing</option>
+                                </select>
+                            </div>
+                            <button onclick="loadHODAttendanceDashboard()" class="btn-primary">🔍 Load Dashboard</button>
+                        </div>
+
+                        <div id="hodDashboardData" class="dashboard-data" style="display: none;">
+                            <h3>Student Attendance Overview</h3>
+                            <div id="hodStudentsList" class="students-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- NOC Management View (HOD Only) -->
+                <section id="noc-management-view" class="view">
+                    <h1>📄 NOC Management</h1>
+                    <div class="noc-container">
+                        <div class="form-card">
+                            <div class="form-group">
+                                <label>🔍 Search Student (Roll Number)</label>
+                                <input type="text" id="studentSearchInput" class="form-control" placeholder="Enter roll number...">
+                            </div>
+                            <button onclick="searchNOCStudent()" class="btn-primary">🔎 Search</button>
+                        </div>
+
+                        <div id="nocStudentInfo" class="noc-student-info" style="display: none;">
+                            <h3>Student Details</h3>
+                            <div id="nocDetails" class="noc-details-container"></div>
+                            <div class="noc-action-buttons">
+                                <button onclick="issueCertificate()" class="btn-success">✅ Issue NOC</button>
+                                <button onclick="denyNOC()" class="btn-danger">❌ Deny NOC</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </main>
         </div>
     </div>
@@ -382,5 +518,17 @@
     <script src="data.js?v=1.1"></script>
     <script src="auth.js?v=1.1"></script>
     <script src="script.js?v=1.1"></script>
+
+    <script>
+        // Initialize attendance date input with today's date
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const dateString = today.toISOString().split('T')[0];
+            const attendanceDate = document.getElementById('attendanceDate');
+            if (attendanceDate) {
+                attendanceDate.value = dateString;
+            }
+        });
+    </script>
 </body>
 </html>
