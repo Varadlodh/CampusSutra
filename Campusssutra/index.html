@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Sutra - Student Portal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">CS</div>
+                    <div>
+                        <h3>Campus Sutra</h3>
+                        <p>by Chimni Pakhru</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <p class="nav-label">MAIN MENU</p>
+                    <a href="#" data-view="dashboard" class="nav-item active">📊 Dashboard</a>
+                    <a href="#" data-view="today-timetable" class="nav-item">📅 Today's Class</a>
+                    <a href="#" data-view="timetable" class="nav-item">📚 Full Timetable</a>
+                </div>
+
+                <div class="nav-section">
+                    <p class="nav-label">ACADEMIC</p>
+                    <a href="#" data-view="subjects" class="nav-item">📖 Subjects</a>
+                    <a href="#" data-view="curriculum" class="nav-item">📚 Curriculum & Topics</a>
+                    <a href="#" data-view="study-materials" class="nav-item">📁 Study Materials</a>
+                    <a href="#" data-view="assignments" class="nav-item">📝 Assignments</a>
+                </div>
+
+                <div class="nav-section">
+                    <p class="nav-label">SCHEDULES</p>
+                    <a href="#" data-view="se-te-timetables" class="nav-item">👥 Class Timetables</a>
+                </div>
+
+                <div class="nav-section">
+                    <p class="nav-label">PLANNING & UPDATES</p>
+                    <a href="#" data-view="calendar" class="nav-item">📅 Calendar</a>
+                    <a href="#" data-view="alerts" class="nav-item">🔔 Alerts</a>
+                    <a href="#" data-view="notice" class="nav-item">📢 Notice Board</a>
+                </div>
+
+                <div class="nav-section">
+                    <p class="nav-label">COMMUNICATION</p>
+                    <a href="#" data-view="chat" class="nav-item">💬 Chat</a>
+                </div>
+
+                <!-- Teacher Only Section -->
+                <div class="nav-section" id="teacherSection" style="display: none;">
+                    <p class="nav-label">TEACHER PANEL</p>
+                    <a href="#" data-view="edit-lectures" class="nav-item">✏️ Edit Lectures</a>
+                    <a href="#" data-view="manage-codes" class="nav-item">🔑 Manage Codes</a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar" id="userAvatar">VA</div>
+                    <div>
+                        <p class="user-name" id="userName">Varad</p>
+                        <p class="user-plan" id="userRole">Student</p>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logoutUser()">🚪 Logout</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-wrapper">
+            <header class="navbar">
+                <div class="navbar-left">
+                    <span class="date-time" id="dateTime">WEDNESDAY, 7 JANUARY 2026</span>
+                </div>
+                <div class="navbar-center">
+                    <input type="text" class="search-bar" placeholder="Ask your question...">
+                </div>
+                <div class="navbar-right">
+                    <button class="icon-btn">🌙</button>
+                    <button class="icon-btn">🔔</button>
+                    <button class="upgrade-btn">Premium</button>
+                </div>
+            </header>
+
+            <main class="content">
+                <!-- Dashboard View -->
+                <section id="dashboard-view" class="view active">
+                    <div class="dashboard-header">
+                        <div class="greeting">
+                            <h1>Welcome to <span class="gradient-text">Campus Sutra</span></h1>
+                            <p>First day of Semester 6! 🎉 Your complete college management platform by Chimni Pakhru</p>
+                        </div>
+                        <div class="live-clock" id="liveClock">
+                            <div class="clock-display">12:34:56</div>
+                            <div class="clock-label">Current Time</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <!-- Next Class Card -->
+                        <div class="section next-class-card" id="nextClassCard"></div>
+
+                        <!-- Quick Stats -->
+                        <div class="section">
+                            <h2>📊 Quick Stats</h2>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-icon">📚</div>
+                                    <div class="stat-info">
+                                        <p class="stat-label">Classes Today</p>
+                                        <p class="stat-value" id="classesToday">5</p>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">📝</div>
+                                    <div class="stat-info">
+                                        <p class="stat-label">Pending Assignments</p>
+                                        <p class="stat-value" id="pendingAssignments">3</p>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">🔔</div>
+                                    <div class="stat-info">
+                                        <p class="stat-label">Notifications</p>
+                                        <p class="stat-value" id="notifications">2</p>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">📊</div>
+                                    <div class="stat-info">
+                                        <p class="stat-label">GPA</p>
+                                        <p class="stat-value">8.5</p>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">✅</div>
+                                    <div class="stat-info">
+                                        <p class="stat-label">Attendance</p>
+                                        <p class="stat-value" id="attendancePercent">86.7%</p>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">🔥</div>
+                                    <div class="stat-info">
+                                        <p class="stat-label">Study Streak</p>
+                                        <p class="stat-value" id="studyStreak">1 day</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Study Streak Widget -->
+                        <div class="section study-streak-widget">
+                            <h2>🔥 Study Streak</h2>
+                            <div class="streak-info" id="streakInfo"></div>
+                        </div>
+
+                        <!-- Today's Schedule -->
+                        <div class="section">
+                            <h2>👨‍🎓 Today's Classes</h2>
+                            <div class="today-schedule" id="todaySchedule"></div>
+                        </div>
+
+                        <!-- Quick To-Do -->
+                        <div class="section">
+                            <h2>✅ Quick Tasks</h2>
+                            <div class="quick-todos" id="quickTodos"></div>
+                            <div class="add-todo-form">
+                                <input type="text" id="quickTodoInput" placeholder="Add a quick task...">
+                                <button onclick="addQuickTodo()">➕</button>
+                            </div>
+                        </div>
+
+                        <!-- Mini Calendar -->
+                        <div class="section">
+                            <h2>📅 Upcoming Events</h2>
+                            <div class="mini-calendar" id="miniCalendar"></div>
+                        </div>
+
+                        <!-- Performance Chart -->
+                        <div class="section">
+                            <h2>📈 Performance Overview</h2>
+                            <div class="performance-chart" id="performanceChart"></div>
+                        </div>
+
+                        <!-- Professor Highlight -->
+                        <div class="section professor-highlight" id="professorHighlight"></div>
+
+                        <!-- Recent Announcements -->
+                        <div class="section">
+                            <h2>📢 Recent Announcements</h2>
+                            <div class="notices-list" id="recentNotices"></div>
+                        </div>
+
+                        <!-- Upcoming Deadlines -->
+                        <div class="section">
+                            <h2>⚡ Upcoming Deadlines</h2>
+                            <div class="assignments-list" id="upcomingAssignments"></div>
+                        </div>
+
+                        <!-- Attendance Overview -->
+                        <div class="section">
+                            <h2>✅ Attendance Overview</h2>
+                            <div class="attendance-overview" id="attendanceOverview"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Today's Timetable View -->
+                <section id="today-timetable-view" class="view">
+                    <h1>👨‍🎓 Today's Classes - Wednesday, 7 January 2026</h1>
+                    <div class="today-timetable-container">
+                        <div class="today-schedule-detailed" id="todayScheduleDetailed"></div>
+                    </div>
+                </section>
+
+                <!-- Full Timetable View -->
+                <section id="timetable-view" class="view">
+                    <h1>📚 Full Timetable</h1>
+                    <div class="timetable-container">
+                        <table class="timetable">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                </tr>
+                            </thead>
+                            <tbody id="timetable-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Subjects View -->
+                <section id="subjects-view" class="view">
+                    <h1>📖 My Subjects</h1>
+                    <div class="subjects-container" id="subjects-container"></div>
+                </section>
+
+                <!-- Curriculum & Topics View -->
+                <section id="curriculum-view" class="view">
+                    <h1>📚 Curriculum & Topics</h1>
+                    
+                    <div class="curriculum-selector">
+                        <div class="selector-group">
+                            <label>📖 Select Subject:</label>
+                            <select id="subjectSelect" onchange="loadCurriculum()">
+                                <option value="">-- Choose Subject --</option>
+                                <option value="SPCC">System Programming & Compiler Construction</option>
+                                <option value="CSS">Cryptography & System Security</option>
+                                <option value="MC">Mobile Computing</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="curriculum-container" id="curriculumContainer"></div>
+                </section>
+
+                <!-- Study Materials View -->
+                <section id="study-materials-view" class="view">
+                    <h1>📁 Study Materials</h1>
+                    <div class="study-materials-container" id="study-materials-container"></div>
+                </section>
+
+                <!-- Class Timetables (SE/TE) View -->
+                <section id="se-te-timetables-view" class="view">
+                    <h1>📚 Class Timetables</h1>
+                    
+                    <div class="timetable-selector">
+                        <div class="selector-group">
+                            <label>📅 Select Year:</label>
+                            <select id="yearSelect" onchange="loadSETETimetable()">
+                                <option value="te">Third Year (TE)</option>
+                                <option value="se">Second Year (SE)</option>
+                            </select>
+                        </div>
+                        <div class="selector-group">
+                            <label>📍 Select Section:</label>
+                            <select id="sectionSelect" onchange="loadSETETimetable()">
+                                <option value="A">Section A</option>
+                                <option value="B">Section B</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="class-info-card" id="classInfoCard"></div>
+
+                    <div class="timetable-container">
+                        <table class="timetable">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                </tr>
+                            </thead>
+                            <tbody id="se-te-timetable-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Calendar View -->
+                <section id="calendar-view" class="view">
+                    <h1>📅 Calendar & Tasks</h1>
+                    <div class="calendar-container">
+                        <div id="calendar" class="calendar-card"></div>
+                        <div class="tasks-card">
+                            <h3>📝 Today's Tasks</h3>
+                            <input type="text" id="taskInput" placeholder="Add a new task...">
+                            <button id="addTaskBtn">➕ Add Task</button>
+                            <ul id="taskList" class="task-list"></ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Assignments View -->
+                <section id="assignments-view" class="view">
+                    <h1>📝 My Assignments</h1>
+                    <div class="assignments-container" id="assignments-container"></div>
+                </section>
+
+                <!-- Alerts View -->
+                <section id="alerts-view" class="view">
+                    <h1>🔔 Alerts & Notifications</h1>
+                    <div class="alerts-container" id="alerts-container"></div>
+                </section>
+
+                <!-- Notice Board View -->
+                <section id="notice-view" class="view">
+                    <h1>📢 Notice Board</h1>
+                    <div class="notice-container" id="notice-container"></div>
+                </section>
+
+                <!-- Chat View -->
+                <section id="chat-view" class="view">
+                    <h1>💬 Chat with Classmates</h1>
+                    <div class="chat-container">
+                        <div class="chat-list" id="chat-list"></div>
+                        <div class="chat-window">
+                            <div class="messages" id="messages-container">Select a student</div>
+                            <div class="chat-input">
+                                <input type="text" id="messageInput" placeholder="Type a message...">
+                                <button id="sendBtn">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Edit Lectures View (Teacher Only) -->
+                <section id="edit-lectures-view" class="view">
+                    <h1>✏️ Edit Lectures & Topics</h1>
+                    <div class="edit-lectures-container" id="editLecturesContainer"></div>
+                </section>
+
+                <!-- Manage Codes View (Teacher Only) -->
+                <section id="manage-codes-view" class="view">
+                    <h1>🔑 Manage Registration Codes</h1>
+                    <div class="manage-codes-container" id="manageCodesContainer"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Include data file BEFORE script.js -->
+    <script src="data.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

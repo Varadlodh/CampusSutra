@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Sutra - Login</title>
+    <link rel="stylesheet" href="auth-styles.css">
+    <style>
+        /* Override - ensure form sections show */
+        .form-section {
+            display: none !important;
+        }
+        .form-section.active {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Left Side -->
+        <div class="auth-left">
+            <div class="auth-logo">
+                <div class="logo-icon">CS</div>
+                <h1>Campus Sutra</h1>
+                <p>by Chimni Pakhru</p>
+            </div>
+            <div class="auth-tagline">
+                <h2>Your Complete College Management Platform</h2>
+                <p>Manage your academic journey with ease</p>
+            </div>
+            <div class="auth-features">
+                <div class="feature">
+                    <span class="feature-icon">📚</span>
+                    <p>Track Classes & Topics</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">👨‍🎓</span>
+                    <p>Student Portal</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">👨‍🏫</span>
+                    <p>Teacher Dashboard</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="auth-right">
+            <div class="form-container">
+
+                <!-- 1. Role Selection -->
+                <div id="roleSelection" class="form-section active">
+                    <h2>Welcome to Campus Sutra</h2>
+                    <p>Select your role to continue</p>
+                    <div class="role-buttons">
+                        <button class="role-btn" onclick="switchRole('student'); return false;">
+                            <span class="role-icon">👨‍🎓</span>
+                            <span class="role-text">I'm a Student</span>
+                        </button>
+                        <button class="role-btn" onclick="switchRole('teacher'); return false;">
+                            <span class="role-icon">👨‍🏫</span>
+                            <span class="role-text">I'm a Teacher/Admin</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Student Login -->
+                <div id="studentLogin" class="form-section">
+                    <h2>Student Login</h2>
+                    <p>Access your student portal</p>
+                    <form onsubmit="studentLogin(event)">
+                        <div class="form-group">
+                            <label>📧 Email or Phone</label>
+                            <input type="text" id="studentEmail" placeholder="varad@campussutra.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>🔐 Password</label>
+                            <input type="password" id="studentPassword" placeholder="password123" required>
+                        </div>
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="rememberMe">
+                            <label for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn-submit">Login</button>
+                    </form>
+                    <div class="form-footer">
+                        <p><a href="#" onclick="switchRole('studentRegister'); return false;">Don't have account? Register</a></p>
+                        <a href="#" onclick="switchRole('role'); return false;" class="back-link">← Back</a>
+                    </div>
+                </div>
+
+                <!-- 3. Student Register -->
+                <div id="studentRegister" class="form-section">
+                    <h2>Student Registration</h2>
+                    <p>Create your account</p>
+                    <form onsubmit="studentRegister(event)">
+                        <div class="form-group">
+                            <label>👤 Full Name</label>
+                            <input type="text" id="regName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>📧 Email</label>
+                            <input type="email" id="regEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>📱 Phone</label>
+                            <input type="tel" id="regPhone" placeholder="Enter your phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>🎓 Roll Number</label>
+                            <input type="text" id="regRoll" placeholder="Enter your roll number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>🔐 Password</label>
+                            <input type="password" id="regPassword" placeholder="Create password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>🔐 Confirm Password</label>
+                            <input type="password" id="regConfirmPassword" placeholder="Confirm password" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Register</button>
+                    </form>
+                    <div class="form-footer">
+                        <a href="#" onclick="switchRole('student'); return false;" class="back-link">← Back to Login</a>
+                    </div>
+                </div>
+
+                <!-- 4. Teacher Login -->
+                <div id="teacherLogin" class="form-section">
+                    <h2>Teacher/Admin Login</h2>
+                    <p>Access teacher dashboard</p>
+                    <form onsubmit="teacherLogin(event)">
+                        <div class="form-group">
+                            <label>📧 Email</label>
+                            <input type="email" id="teacherEmail" placeholder="svr@sjjcet.edu.in" required>
+                        </div>
+                        <div class="form-group">
+                            <label>🔐 Password</label>
+                            <input type="password" id="teacherPassword" placeholder="teacher123" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Login</button>
+                    </form>
+                    <div class="form-footer">
+                        <p><a href="#" onclick="showTeacherCode(); return false;">Don't have account? Get Code</a></p>
+                        <a href="#" onclick="switchRole('role'); return false;" class="back-link">← Back</a>
+                    </div>
+                </div>
+
+                <!-- 5. Teacher Register with Code -->
+                <div id="teacherCode" class="form-section">
+                    <h2>Register with Code</h2>
+                    <p>Enter code from admin</p>
+                    <form onsubmit="registerTeacher(event)">
+                        <div class="code-info">
+                            <p>📝 Demo Code: <strong>SJJCET2024</strong></p>
+                        </div>
+                        <div class="form-group">
+                            <label>👤 Full Name</label>
+                            <input type="text" id="teacherName" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>📧 Email</label>
+                            <input type="email" id="teacherRegEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>📱 Phone</label>
+                            <input type="tel" id="teacherPhone" placeholder="Enter your phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>🔑 Registration Code</label>
+                            <input type="text" id="regCode" placeholder="SJJCET2024" required>
+                        </div>
+                        <div class="form-group">
+                            <label>🔐 Password</label>
+                            <input type="password" id="teacherRegPassword" placeholder="Create password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>🔐 Confirm Password</label>
+                            <input type="password" id="teacherConfirmPassword" placeholder="Confirm password" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Register</button>
+                    </form>
+                    <div class="form-footer">
+                        <a href="#" onclick="switchRole('teacher'); return false;" class="back-link">← Back</a>
+                    </div>
+                </div>
+
+                <!-- 6. Admin Panel -->
+                <div id="adminPanel" class="form-section">
+                    <h2>Admin Code Generation</h2>
+                    <p>Generate teacher codes</p>
+                    <div class="admin-section">
+                        <div class="form-group">
+                            <label>👨‍🏫 Teacher Name</label>
+                            <input type="text" id="adminTeacherName" placeholder="Enter teacher name">
+                        </div>
+                        <div class="form-group">
+                            <label>📖 Subject</label>
+                            <input type="text" id="adminSubject" placeholder="e.g., SPCC, CSS, MC">
+                        </div>
+                        <button type="button" class="btn-submit" onclick="generateTeacherCode(); return false;">Generate Code</button>
+                        <div id="generatedCode" class="generated-code" style="display: none; margin-top: 20px;">
+                            <p><strong>Generated Code:</strong></p>
+                            <div class="code-display">
+                                <code id="codeValue"></code>
+                                <button type="button" class="btn-copy" onclick="copyCode(); return false;">📋 Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-footer">
+                        <a href="#" onclick="switchRole('role'); return false;" class="back-link">← Back</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>✅ Success!</h2>
+            <p id="successMessage"></p>
+            <button onclick="closeModal()" class="btn-submit">Okay</button>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content error">
+            <span class="close" onclick="closeErrorModal()">&times;</span>
+            <h2>❌ Error</h2>
+            <p id="errorMessage"></p>
+            <button onclick="closeErrorModal()" class="btn-submit">Try Again</button>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
