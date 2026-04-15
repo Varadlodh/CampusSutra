@@ -1,6 +1,9 @@
 // ============= DATA VARIABLES ============= 
 let tasks = {};
 let currentChat = null;
+let currentSubject = null;
+let currentSubjectName = null;
+let currentChatStudent = null;
 
 // ============= LOGOUT FUNCTION ============= 
 function logoutUser() {
@@ -972,10 +975,76 @@ function loadSubjects() {
                 <h4>📁 Course Materials:</h4>
                 <p style="color: #888; font-size: 12px;">Check Study Materials section for course documents</p>
             </div>
-            <button onclick="alert('Submit Assignment for ' + '${subject.subjectName}')">📤 Submit Assignment</button>
+            <div class="subject-actions">
+                <button onclick="loadSubjectChat('${subjectCode}', '${subject.subjectName}')">💬 Subject Chat</button>
+                <button onclick="alert('Submit Assignment for ' + '${subject.subjectName}')">📤 Submit Assignment</button>
+            </div>
         `;
         container.appendChild(card);
     });
+}
+
+function loadSubjectChat(subjectCode, subjectName) {
+    currentSubject = subjectCode;
+    currentSubjectName = subjectName;
+    
+    document.getElementById('subjects-container').style.display = 'none';
+    document.getElementById('subject-chat-section').style.display = 'block';
+    document.getElementById('current-subject-name').textContent = subjectName;
+    
+    loadSubjectChatList();
+}
+
+function loadSubjectChatList() {
+    const list = document.getElementById('subject-chat-list');
+    list.innerHTML = '';
+
+    students.forEach((s, i) => {
+        const user = document.createElement('div');
+        user.className = 'chat-user' + (i === 0 ? ' active' : '');
+        user.textContent = s.name;
+        user.onclick = () => selectSubjectChat(s, user);
+        list.appendChild(user);
+    });
+
+    selectSubjectChat(students[0]);
+}
+
+function selectSubjectChat(student, userDiv) {
+    currentChatStudent = student;
+    document.querySelectorAll('#subject-chat-list .chat-user').forEach(u => u.classList.remove('active'));
+    if (userDiv) userDiv.classList.add('active');
+    document.getElementById('subject-messages-container').innerHTML = '';
+}
+
+function sendSubjectMessage() {
+    const input = document.getElementById('subject-messageInput');
+    const text = input.value.trim();
+    if (!text || !currentChatStudent) return;
+
+    const container = document.getElementById('subject-messages-container');
+    const sent = document.createElement('div');
+    sent.className = 'message sent';
+    sent.innerHTML = `<div class="message-content">${text}</div>`;
+    container.appendChild(sent);
+
+    setTimeout(() => {
+        const rec = document.createElement('div');
+        rec.className = 'message received';
+        rec.innerHTML = `<div class="message-content">Got it! 😊</div>`;
+        container.appendChild(rec);
+        container.scrollTop = container.scrollHeight;
+    }, 500);
+
+    input.value = '';
+    container.scrollTop = container.scrollHeight;
+}
+
+function closeSubjectChat() {
+    document.getElementById('subjects-container').style.display = '';
+    document.getElementById('subject-chat-section').style.display = 'none';
+    currentSubject = null;
+    currentSubjectName = null;
 }
 
 // ============= STUDY MATERIALS ============= 
@@ -1334,6 +1403,11 @@ function setupEventListeners() {
     document.getElementById('sendBtn')?.addEventListener('click', sendMessage);
     document.getElementById('messageInput')?.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
+    });
+
+    document.getElementById('subject-sendBtn')?.addEventListener('click', sendSubjectMessage);
+    document.getElementById('subject-messageInput')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendSubjectMessage();
     });
 }
 

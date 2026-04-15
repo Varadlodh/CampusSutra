@@ -96,9 +96,6 @@
                     <input type="text" class="search-bar" placeholder="Ask your question...">
                 </div>
                 <div class="navbar-right">
-                    <button class="icon-btn">🌙</button>
-                    <button class="icon-btn">🔔</button>
-                    <button class="upgrade-btn">Premium</button>
                 </div>
             </header>
 
@@ -254,6 +251,20 @@
                 <section id="subjects-view" class="view">
                     <h1>📖 My Subjects</h1>
                     <div class="subjects-container" id="subjects-container"></div>
+                    <div class="subject-chat-section" id="subject-chat-section" style="display: none;">
+                        <h2>💬 <span id="current-subject-name"></span> - Chat</h2>
+                        <div class="chat-container">
+                            <div class="chat-list" id="subject-chat-list"></div>
+                            <div class="chat-window">
+                                <div class="messages" id="subject-messages-container">Select a student</div>
+                                <div class="chat-input">
+                                    <input type="text" id="subject-messageInput" placeholder="Type a message...">
+                                    <button id="subject-sendBtn">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="closeSubjectChat()" class="back-btn">← Back to Subjects</button>
+                    </div>
                 </section>
 
                 <!-- Curriculum & Topics View -->
